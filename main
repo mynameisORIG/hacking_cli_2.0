@@ -5,7 +5,7 @@ function smb {
     source ./var
 
     PS3='Please enter your choice: '
-    options=("smblogin" "smbenum" "Option 3" "Quit")
+    options=("smblogin" "smbenum" "smbserver" "Quit")
     select opt in "${options[@]}"
     do
         case $opt in
@@ -13,10 +13,10 @@ function smb {
                 smbclient -U "${smb_user}%${smb_pass}" //$smb_ip/<location>
                 ;;
             "smbmap")
-                echo "you chose choice 2"
+                smbmap -HR $smb_ip
                 ;;
-            "Option 3")
-                echo "you chose choice $REPLY which is $opt"
+            "smbserver")
+                smbserver.py share .
                 ;;
             "Quit")
                 break
@@ -25,3 +25,24 @@ function smb {
         esac
     done
 }
+
+    PS3='Please enter your choice: '
+    func=("smb" "smbenum" "smbserver" "Quit")
+    select opt in "${func[@]}"
+    do
+        case $opt in
+            "smb")
+                smb
+                ;;
+            "smbmap")
+                smbmap -HR $smb_ip
+                ;;
+            "smbserver")
+                smbserver.py share .
+                ;;
+            "Quit")
+                break
+                ;;
+            *) echo "invalid option $REPLY";;
+        esac
+    done
