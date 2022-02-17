@@ -1,1 +1,27 @@
 #!/bin/bash
+
+function smb {
+
+    source ./var
+
+    PS3='Please enter your choice: '
+    options=("smblogin" "smbenum" "Option 3" "Quit")
+    select opt in "${options[@]}"
+    do
+        case $opt in
+            "smblogin")
+                smbclient -U "${smb_user}%${smb_pass}" //$smb_ip/<location>
+                ;;
+            "smbmap")
+                echo "you chose choice 2"
+                ;;
+            "Option 3")
+                echo "you chose choice $REPLY which is $opt"
+                ;;
+            "Quit")
+                break
+                ;;
+            *) echo "invalid option $REPLY";;
+        esac
+    done
+}

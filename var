@@ -1,0 +1,5 @@
+#!/bin/bash
+
+smb_user=
+smb_pass=
+smb_ip=
