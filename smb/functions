@@ -1,20 +1,19 @@
 #!/bin/bash
 
-source ./smb/var
-source ./smb/functions
-source ./msfvenom/var
-source ./msfvenom/function
+function smb {
+
+    source ./var
 
     PS3='Please enter your choice: '
-    func=("smb" "msfvenom" "smbserver" "Quit")
-    select opt in "${func[@]}"
+    options=("smblogin" "smbenum" "smbserver" "Quit")
+    select opt in "${options[@]}"
     do
         case $opt in
-            "smb")
-                smb
+            "smblogin")
+                smbclient -U "${smb_user}%${smb_pass}" //$smb_ip/<location>
                 ;;
-            "msfvenom")
-                msfv
+            "smbmap")
+                smbmap -HR $smb_ip
                 ;;
             "smbserver")
                 smbserver.py share .
@@ -25,3 +24,4 @@ source ./msfvenom/function
             *) echo "invalid option $REPLY";;
         esac
     done
+}

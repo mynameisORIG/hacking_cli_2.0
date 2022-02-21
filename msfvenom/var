@@ -1,0 +1,4 @@
+#!/bin/bash
+
+tun0 = ${ifconfig tun0 | grep inet | sed '2,3d' | sed 's/\<inet\>//g' | awk ' { print $1 }'}
+port = 4444
