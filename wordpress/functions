@@ -1,0 +1,24 @@
+#!/bin/bash
+
+function wp {
+
+    source ./var
+
+    PS3='Please enter your choice: '
+    options=("enum web" "enum user" "Quit")
+    select opt in "${options[@]}"
+    do
+        case $opt in
+            "enum web")
+                wpscan --url "${url}" --enumerate 
+                ;;
+            "enum user")
+                wpscan --url "$url" -U $user -P $wl
+                ;;
+            "Quit")
+                break
+                ;;
+            *) echo "invalid option $REPLY";;
+        esac
+    done
+}

@@ -4,9 +4,11 @@ source ./smb/var
 source ./smb/functions
 source ./msfvenom/var
 source ./msfvenom/function
+source ./wordpress/var
+source ./wordpress/functions
 
     PS3='Please enter your choice: '
-    func=("smb" "msfvenom" "smbserver" "Quit")
+    func=("smb" "msfvenom" "smbserver" "wordpress" "Quit")
     select opt in "${func[@]}"
     do
         case $opt in
@@ -18,6 +20,9 @@ source ./msfvenom/function
                 ;;
             "smbserver")
                 smbserver.py share .
+                ;;
+            "wordpress")
+                wp
                 ;;
             "Quit")
                 break

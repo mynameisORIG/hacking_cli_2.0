@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# url you are enumerating
+url="http://lemonsqueezy/wordpress" 
+# this is the user you're enumerating
+user=""
+# this is the wordlist you use. Change it to whatever wordlist you like
+wl="/usr/share/wordlists/rockyou.txt"
